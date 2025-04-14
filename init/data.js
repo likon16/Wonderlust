@@ -227,7 +227,7 @@ const sampleListings = [
       location: "Scottish Highlands",
       country: "United Kingdom",
     },
-    {
+    {   
       title: "Desert Oasis in Dubai",
       description:
         "Experience luxury in the middle of the desert in this opulent oasis in Dubai with a private pool.",
