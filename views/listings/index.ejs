@@ -1,16 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>List</title>
-</head>
+<% layout ("/layouts/boilarplate"); %>
 <body>
 
-    <h3>Lists</h3>
-    <form action="/listings/new" method="GET">
-    <button > Create</button>
-</form>
+    <h3>All Listings</h3>
+    <% for (let list of allList){ %>
+    <div class="card" style="width: 18rem;">
+        <img src="<%= list.image.url %>" class="card-img-top" alt="...">
+        <div class="card-body">
+          <p class="card-title"> <b><%= list.title %></b><br>
+            ₹<%= list.price.toLocaleString("en-IN") %> / Night</p>
+          
+        </div>
+      </div>
+      <% }%>
 <ul>
     <% for (let list of allList){ %>
         <li> <a href="/listings/<%=list._id%>"> <%= list.title %></a> </li>
@@ -18,4 +19,3 @@
 </ul>
   
 </body>
-</html>

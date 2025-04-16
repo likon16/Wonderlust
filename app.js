@@ -8,6 +8,11 @@ const Listing = require("./models/listing")
 const path = require("path");
 const methodOverride = require("method-override");
 
+const ejsMate = require("ejs-mate")
+app.engine('ejs', ejsMate);
+
+
+app.use(express.static(path.join(__dirname,"/public")));
 
 app.set("view engine", "ejs");
 app.set("views", path.join (__dirname,"views"))
@@ -53,7 +58,7 @@ app.get("/listings", async(req, res)  => {
 app.post("/listings" , async (req,res) => {
     const newListing = new Listing(req.body.listing);
     await newListing.save();
-    res.redirect("/listing");
+    res.redirect("/listings");
     console.log("Data Was Added")
 });
 
