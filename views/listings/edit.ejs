@@ -16,9 +16,10 @@
     <textarea name="listing[description]" id="description" class="form-control"><%=listing.description %> </textarea>
 </div>
 <div class="mb-3">
-    <label for="image" class="form-label">Image</label>
-    <input type="text" name="listing[image]" id="image" value="<%=listing.image %>"class="form-control">
-</div>
+    <label for="image" class="form-label">Image URL</label>
+    <input type="text" name="listing[image][url]" id="image" value="<%= listing.image.url %>" class="form-control">
+  </div>
+  
 <div class="row">
 <div class="mb-3 col-md-4">
     <label for="price" class="form-label">Price</label>
@@ -34,7 +35,7 @@
     <label for="location" class="form-label">Location</label>
     <input type="text" name="listing[location]" id="location" value="<%=listing.location %> "class="form-control">
     </div>  
-    <button class="btn btn-dark edit-btn mb-3">Add</button>
+    <button class="btn btn-dark edit-btn mb-3">Update</button>
 </form>
 
 </div>

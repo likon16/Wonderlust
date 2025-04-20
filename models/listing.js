@@ -7,17 +7,19 @@ const listingSchema = new Schema({
     required: true,
   },
   description: String,
+  
   image: {
-    filename: String,
+    filename: {
+      type: String,
+      default: "listingimage",
+    },
     url: {
       type: String,
+      required: true,
       default: "https://images.unsplash.com/photo-1625505826533-5c80aca7d157?auto=format&fit=crop&w=800&q=60",
-      set: (v) =>
-        v === ""
-          ? "https://images.unsplash.com/photo-1625505826533-5c80aca7d157?auto=format&fit=crop&w=800&q=60"
-          : v,
-    },
-  },
+      set: (v) => v === "" ? "https://images.unsplash.com/photo-1625505826533-5c80aca7d157?auto=format&fit=crop&w=800&q=60" : v
+    }
+  },  
   price: Number,
   location: String,
   country: String,
