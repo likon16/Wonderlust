@@ -1,237 +1,113 @@
-const express = require("express")
-const app = express();
+// Cleaned and working version of app.js
 
-const mongoose = require("mongoose")
-const Mongo_URL = "mongodb://127.0.0.1:27017/wanderlust";
-
-const Listing = require("./models/listing")
+const express = require("express");
+const mongoose = require("mongoose");
 const path = require("path");
 const methodOverride = require("method-override");
-
-const ejsMate = require("ejs-mate")
-app.engine('ejs', ejsMate);
-
-
-app.use(express.static(path.join(__dirname,"/public")));
-
-app.set("view engine", "ejs");
-app.set("views", path.join (__dirname,"views"))
-app.use(express.urlencoded({extended:true}));
-app.use(methodOverride("_method"));
-
-
-main().then(() =>{
-    console.log("Databse connected succesfully")
-})
-.catch((err) =>{
-    console.log(err)
-})
-
-async function main() {
-    await mongoose.connect(Mongo_URL)
-    
-}
-
-
-let port = 3000;
-app.listen(port,(req,res) =>{
-    console.log(`Server Run on ${port}`)
-})
-
-
-app.get("/", (req,res) =>{
-    res.send("hee");
-})
-
-app.get("/listings", async(req, res)  => {const express = require("express");
-const app = express();
-
-const mongoose = require("mongoose");
-const Mongo_URL = "mongodb://127.0.0.1:27017/wanderlust";
+const ejsMate = require("ejs-mate");
 
 const Listing = require("./models/listing");
-const path = require("path");
-const methodOverride = require("method-override");
+const wrapAsync = require("./utills/wrapAsync");
+const ExpressErr = require("./utills/ExpressErr");
 
-const ejsMate = require("ejs-mate");
-app.engine('ejs', ejsMate);
+const app = express();
+const Mongo_URL = "mongodb://127.0.0.1:27017/wanderlust";
 
-app.use(express.static(path.join(__dirname, "/public")));
-
-app.set("view engine", "ejs");
-app.set("views", path.join(__dirname, "views"));
-app.use(express.urlencoded({ extended: true }));
-app.use(methodOverride("_method"));
-
+// DB connection
 async function main() {
-    try {
-        await mongoose.connect(Mongo_URL);
-        console.log("Database connected successfully");
-    } catch (err) {
-        console.error(err);
-    }
+  try {
+    await mongoose.connect(Mongo_URL);
+    console.log("Database connected successfully");
+  } catch (err) {
+    console.error("Database connection error:", err);
+  }
 }
-
 main();
 
-let port = 3000;
-app.listen(port, () => {
-    console.log(`Server running on ${port}`);
-});
+// App config
+app.engine("ejs", ejsMate);
+app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "views"));
+app.use(express.static(path.join(__dirname, "public")));
+app.use(express.urlencoded({ extended: true }));
+app.use(methodOverride("_method"));
+app.use(express.json()); // Required to parse JSON bodies
 
+
+// Root route
 app.get("/", (req, res) => {
-    res.send("Hello World!");
+  res.send("Hello World!");
 });
 
-app.get("/listings", async (req, res) => {
-    try {
-        const allList = await Listing.find({});
-        res.render("listings/index.ejs", { allList });
-    } catch (err) {
-        console.error(err);
-        res.status(500).send("Failed to retrieve listings.");
-    }
-});
+// Show all listings
+app.get("/listings", wrapAsync(async (req, res) => {
+  const allList = await Listing.find({});
+  res.render("listings/index.ejs", { allList });
+}));
 
+// New listing form
 app.get("/listings/new", (req, res) => {
-    res.render("listings/new.ejs");
+  res.render("listings/new.ejs");
 });
 
-app.post("/listings", async (req, res) => {
-    try {
-        const newListing = new Listing(req.body.listing);
-        await newListing.save();
-        res.redirect("/listings");
-        console.log("Data was added");
-    } catch (err) {
-        console.error(err);
-        res.status(500).send("Failed to add listing.");
-    }
-});
-
-app.get("/listings/:id/edit", async (req, res) => {
-    try {
-        let { id } = req.params;
-        const listing = await Listing.findById(id);
-        res.render("listings/edit.ejs", { listing });
-    } catch (err) {
-        console.error(err);
-        res.status(500).send("Failed to retrieve listing.");
-    }
-});
-
-app.put("/listings/:id", async (req, res) => {
-    try {
-        let { id } = req.params;
-        await Listing.findByIdAndUpdate(id, { ...req.body.listing });
-        res.redirect(`/listings/${id}`);
-    } catch (err) {
-        console.error(err);
-        res.status(500).send("Failed to update listing.");
-    }
-});
-
-app.delete("/listings/:id", async (req, res) => {
-    try {
-        let { id } = req.params;
-        await Listing.findByIdAndDelete(id);
-        res.redirect(`/listings`);
-    } catch (err) {
-        console.error(err);
-        res.status(500).send("Failed to delete listing.");
-    }
-});
-
-app.get("/listings/:id", async (req, res) => {
-    try {
-        let { id } = req.params;
-        id = id.trim();
-        const listing = await Listing.findById(id);
-        res.render("listings/show.ejs", { listing });
-    } catch (err) {
-        console.error(err);
-        res.status(500).send("Failed to retrieve listing.");
-    }
-});
-    const allList = await Listing.find({})
-        res.render("listings/index.ejs",{allList}); 
- });
-
- //Create new route
-
- app.get("/listings/new", (req, res) => {
-    res.render("listings/new.ejs"); 
-});
-
-//Post rout
-app.post("/listings" , async (req,res) => {
+// Create listing
+app.post("/listings", wrapAsync(async (req, res) => {
+    // Validate listing data
+     if (!req.body.listing) {
+        throw new ExpressErr("Invalid Listing Data", 400);
+     }
     const newListing = new Listing(req.body.listing);
     await newListing.save();
     res.redirect("/listings");
-    console.log("Data Was Added")
+  }));
+  
+
+// Edit listing form
+app.get("/listings/:id/edit", wrapAsync(async (req, res) => {
+  const { id } = req.params;
+  const listing = await Listing.findById(id);
+  res.render("listings/edit.ejs", { listing });
+}));
+
+// Update listing
+app.put("/listings/:id", wrapAsync(async (req, res) => {
+  const { id } = req.params;
+  await Listing.findByIdAndUpdate(id, { ...req.body.listing });
+  res.redirect(`/listings/${id}`);
+}));
+
+// Delete listing
+app.delete("/listings/:id", wrapAsync(async (req, res) => {
+  const { id } = req.params;
+  await Listing.findByIdAndDelete(id);
+  res.redirect("/listings");
+}));
+
+// Show single listing
+app.get("/listings/:id", wrapAsync(async (req, res) => {
+  const { id } = req.params;
+  const listing = await Listing.findById(id);
+  res.render("listings/show.ejs", { listing });
+}));
+
+// Catch-all for invalid routes
+app.all(/.*/, (req, res, next) => {
+    next(new ExpressErr("Page Not Found", 404));
+
+  });
+// Global error handler
+
+
+app.use((err, req, res, next) => {
+    const status = err.statusCode || 500;
+    const message = err.message || "Something went wrong!";
+    res.status(status).send(`Error ${status}: ${message}`);
+  });
+  
+
+  
+// Start server
+const port = 3000;
+app.listen(port, () => {
+  console.log(`Server running on port ${port}`);
 });
-
-
-//Edit Route
-
-app.get("/listings/:id/edit", async(req,res) => {
-    let {id} = req.params;  
-    const listing = await Listing.findById(id);
-    console.log(listing);
-    res.render("listings/edit.ejs" , {listing});
-})
-
-//Update Route
-
-app.put("/listings/:id", async(req,res) => {
-    let {id} = req.params; 
-  let up = await Listing.findByIdAndUpdate(id, {...req.body.listing});
-  console.log(up);
-  res.redirect(`/listings/${id}`)
-
-})
-
-
-//Delete route
-
-app.delete("/listings/:id", async(req,res) => {
-    let {id} = req.params; 
-  let deletlist = await Listing.findByIdAndDelete(id, {...req.body.listing});
-  console.log(deletlist)
-  res.redirect(`/listings`)
-
-})
-
-
-//Show Route
-
-app.get("/listings/:id",async (req,res) => {
-    let {id} = req.params;  
-    id = id.trim(); 
-    const listing = await Listing.findById(id);
-    res.render("listings/show.ejs" ,{listing})
-
- })
-
-
-
-
-
-// app.get("/testListing", async (req, res) => {
-//     try {
-//         let setListing = new Listing({
-//             title: "my new Guest House",
-//             description: "Book your room and enjoy your vacation",
-//             price: 5482,
-//             location: "Cooch Behar",
-//             country: "India"
-//         });
-
-//         const result = await setListing.save();
-//         console.log(result, "Information was Saved!");
-//         res.send("Listing saved successfully!");
-//     } catch (err) {
-//         console.error("Error saving listing:", err);
-//         res.status(500).send("Failed to save listing.");
-//     }
-// });
