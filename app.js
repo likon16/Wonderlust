@@ -15,10 +15,10 @@ const Mongo_URL = "mongodb://127.0.0.1:27017/wanderlust";
 // Database connection
 mongoose.connect(Mongo_URL)
   .then(() => {
-    console.log("✅ Database connected successfully");
+    console.log(" Database connected successfully");
   })
   .catch(err => {
-    console.error("❌ MongoDB connection error:", err);
+    console.error(" MongoDB connection error:", err);
   });
 
 // App config
@@ -39,9 +39,11 @@ app.get("/", (req, res) => {
 // joi validation middleware
 
 
+
 const validateListing = (req, res, next) => {
   const {error} = listingSchema.validate(req.body);
-console.log("Validation",error);
+// console.log("Validation",error);
+
   if (error) {
     const msg = error.details.map((el) => el.message).join(",");
     throw new ExpressErr(msg, 400);
