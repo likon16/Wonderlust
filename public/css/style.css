@@ -26,8 +26,6 @@ body {
 
 
 
-
-
 .fa-compass{
     color: rgb(233, 69, 69);
     font-size: 2rem;
@@ -40,97 +38,56 @@ body {
 
 /*Footer */
 
-footer {
-    background-color: aliceblue;
-   padding: 1rem ;
+.fo-info-links a{
+    color: rgb(0, 0, 0) ;
+    text-decoration: none !important;
+    margin-bottom: 1rem;
+}
+
+.fo-info-links a:hover{
+
+    text-decoration: underline!important;
+}
+.fo-info{
+    padding-top: 1rem;
+    height: 8rem;
+    display: flex;
+    flex-wrap: wrap;
+   background-color: rgb(227, 208, 208);
+   justify-content: center;
+   align-items: space-evenly;
+   flex-direction: column;
+   text-align: center;
+}
+
+.fo-info-links, .fo-info-socials #copyright{
     width: 100%;
-    box-sizing: border-box;
-    font-size: 14px;
-    margin: auto;
+font-size: 1rem;
+    color: rgb(0, 0, 0);
+    text-align: center;
+    padding-bottom: 1rem;
     
 }
-
-
-.fo-info {
-    display: flex;
-    flex-direction: row; 
-    flex-wrap: wrap;    
-    justify-content: space-evenly;
-    align-items: flex-start;
-   margin-top: 1rem;
-}
-
-/* .fo-info .section-1 {
-    flex: 1 1 250px;  
-    display: flex;
-
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    min-width: 700px;
-} */
-
-
-.fo-info-links a {
-    text-decoration: none;
-    color: rgba(0, 0, 0, 0.6);
-    padding: 0.2rem 0.5rem;
-    transition: color 0.3s ease;
-}
-
-.fo-info-links a:hover {
-    color: black;
-}
 .fo-info-socials {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: 1rem;
-    align-items: center;
-    justify-content: center;
-    flex: 1 1 200px;
-    /* margin-left: 30%;  */
+   
+   font-size: 1rem;
+
+  margin-right: 1rem;
+  
 }
 
-.buttons a,i{
-    padding-left: 1rem;
-    padding: 0.5rem 0.5rem;
-    text-decoration: none;
-    color: rgb(58, 46, 46);
+#copyright{
+    font-size: 1rem;
+    color: rgb(0, 0, 0);
+    text-align: center;
+    padding-bottom: 1rem;
 }
 
-.buttons a:hover{
-    padding: 0.5rem 0.5rem;
-    background-color: rgb(196, 194, 194);
-    border-radius: 5px;
-    color: black;
-    transition: all ease-in 0.1s;
-}
-.buttons i:hover{
-    padding: 0.5rem 0.5rem;
-    background-color: rgb(229, 227, 227);
-    border-radius: 5px;
-    color: black;
-    transition: all ease-in 0.1s;
-}
-
-@media (max-width: 768px) {
-    .fo-info {
-        justify-content: center;
-        gap: 1.5rem;
-    }
-
-    .fo-info .section-1,
-    .fo-info-socials {
-        align-items: center;
-        text-align: center;
-    }
-}
 
 
 /* Cards*/
 
-.card{
+.listing-card{
     border: none !important;
     margin-bottom: 2rem;
    

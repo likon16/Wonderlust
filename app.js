@@ -5,9 +5,10 @@ const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
 
 const Listing = require("./models/listing");
+const Review = require("./models/review");
 const wrapAsync = require("./utills/wrapAsync");
 const ExpressErr = require("./utills/ExpressErr");
-const listingSchema = require("./schema");
+const { listingSchema, reviewSchema } = require("./schema");
 
 const app = express();
 const Mongo_URL = "mongodb://127.0.0.1:27017/wanderlust";
@@ -51,6 +52,21 @@ const validateListing = (req, res, next) => {
   next();
 };
 
+
+
+
+let validateReview = (req, res, next) => {
+
+  let { error } = reviewSchema.validate(req.body);
+  console.log(error);
+  if (error) {
+      const msg = error.details.map((el) => el.message).join(",");
+       throw new ExpressErr(msg, 400);
+  }
+  else {
+      next();
+  }
+};
 // All listings
 app.get("/listings",validateListing, wrapAsync(async (req, res) => {
   const allList = await Listing.find({});
@@ -95,9 +111,41 @@ app.delete("/listings/:id", wrapAsync(async (req, res) => {
 // Show single listing
 app.get("/listings/:id", wrapAsync(async (req, res) => {
   const { id } = req.params;
-  const listing = await Listing.findById(id);
+  const listing = await Listing.findById(id).populate("reviews");
   res.render("listings/show.ejs", { listing });
 }));
+
+
+
+// post Reviews routes
+app.post("/listings/:id/reviews",validateReview,wrapAsync( async (req, res) => {
+  const { id } = req.params;
+  const listing = await Listing.findById(req.params.id);
+  const newReview = new Review(req.body.review);
+
+  listing.reviews.push(newReview);
+  await newReview.save();
+  await listing.save();
+  console.log("New Review", newReview);
+  res.redirect(`/listings/${listing._id}`);
+  // res.send("Review added successfully!");
+
+ 
+}));
+
+
+
+
+
+//delete review route
+app.delete("/listings/:id/reviews/:reviewId", wrapAsync(async (req, res) => {
+  const { id, reviewId } = req.params;
+  await Listing.findByIdAndUpdate(id, { $pull: { reviews: reviewId } });
+  await Review.findByIdAndDelete(reviewId);
+  res.redirect(`/listings/${id}`);
+}));
+
+
 
 // Catch-all for undefined routes
 app.all(/.*/, (req, res, next) => {
