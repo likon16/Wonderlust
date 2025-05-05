@@ -9,6 +9,13 @@ body {
     flex: 1;
   }
 
+  html, body {
+    margin: 0;
+    padding: 0;
+}
+*, *::before, *::after {
+    box-sizing: border-box;
+}
 
 
 
@@ -37,51 +44,50 @@ body {
 
 
 /*Footer */
-
-.fo-info-links a{
-    color: rgb(0, 0, 0) ;
-    text-decoration: none !important;
-    margin-bottom: 1rem;
+footer {
+    background-color: rgba(179, 209, 186, 0.278);
+    width: 100vw;
+    position: relative;
+    left: 0;
+    margin: 0;
+    padding: 0;
 }
 
-.fo-info-links a:hover{
 
-    text-decoration: underline!important;
-}
-.fo-info{
-    padding-top: 1rem;
-    height: 8rem;
-    display: flex;
-    flex-wrap: wrap;
-   background-color: rgb(227, 208, 208);
-   justify-content: center;
-   align-items: space-evenly;
-   flex-direction: column;
-   text-align: center;
-}
-
-.fo-info-links, .fo-info-socials #copyright{
-    width: 100%;
-font-size: 1rem;
-    color: rgb(0, 0, 0);
-    text-align: center;
-    padding-bottom: 1rem;
-    
-}
-.fo-info-socials {
-   
-   font-size: 1rem;
-
-  margin-right: 1rem;
   
-}
-
-#copyright{
-    font-size: 1rem;
-    color: rgb(0, 0, 0);
+  .fo-info {
+    padding-top: 1rem;
+   
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
     padding-bottom: 1rem;
-}
+  }
+  
+  .fo-info-socials i {
+    font-size: 1.2rem;
+    margin: 0 0.5rem;
+    color: black;
+    cursor: pointer;
+  }
+  
+  .fo-info-links a {
+    color: black;
+    text-decoration: none;
+    margin: 0 0.2rem;
+  }
+  
+  .fo-info-links a:hover {
+    text-decoration: underline;
+  }
+  
+  #copyright {
+    font-size: 0.8rem;
+    color: black;
+  }
+  
 
 
 
@@ -98,7 +104,9 @@ font-size: 1rem;
     height: 20rem;
     width: 100% !important;
     object-fit: cover !important;
+    padding: 0 !important;
 }
+
 .card-body{
     padding: 0 !important;
 }
@@ -140,8 +148,6 @@ font-size: 1rem;
 
 
 /* Show List */
-
-
 
 
 

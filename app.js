@@ -55,17 +55,29 @@ const validateListing = (req, res, next) => {
 
 
 
-let validateReview = (req, res, next) => {
+// let validateReview = (req, res, next) => {
 
-  let { error } = reviewSchema.validate(req.body);
-  console.log(error);
+//   let { error } = reviewSchema.validate(req.body);
+//   console.log(error);
+//   if (error) {
+//       const msg = error.details.map((el) => el.message).join(",");
+//        throw new ExpressErr(msg, 400);
+//   }
+//   else {
+//       next();
+//   }
+// };
+
+
+const validateReview = (req, res, next) => {
+  const { error } = reviewSchema.validate(req.body, { abortEarly: false });
+
   if (error) {
-      const msg = error.details.map((el) => el.message).join(",");
-       throw new ExpressErr(msg, 400);
+    const msg = error.details.map((el) => el.message).join(", ");
+    throw new ExpressErr(msg, 400); // throws error to your global error handler
   }
-  else {
-      next();
-  }
+
+  next();
 };
 // All listings
 app.get("/listings",validateListing, wrapAsync(async (req, res) => {
@@ -118,20 +130,42 @@ app.get("/listings/:id", wrapAsync(async (req, res) => {
 
 
 // post Reviews routes
-app.post("/listings/:id/reviews",validateReview,wrapAsync( async (req, res) => {
-  const { id } = req.params;
-  const listing = await Listing.findById(req.params.id);
-  const newReview = new Review(req.body.review);
+// app.post("/listings/:id/reviews",validateReview,wrapAsync( async (req, res) => {
+//   const { id } = req.params;
+//   const listing = await Listing.findById(req.params.id);
+//   const data = req.body.review || req.body;
+// const newReview = new Review(data);
+//   // const newReview = new Review(req.body.review);
 
-  listing.reviews.push(newReview);
-  await newReview.save();
-  await listing.save();
-  console.log("New Review", newReview);
-  res.redirect(`/listings/${listing._id}`);
-  // res.send("Review added successfully!");
+//   listing.reviews.push(newReview);
+//   await newReview.save();
+//   await listing.save();
+//   console.log("New Review", newReview);
+//   res.redirect(`/listings/${listing._id}`);
+//   // res.send("Review added successfully!");
 
  
-}));
+// }));
+
+app.post("/listings/:id/reviews", validateReview, async (req, res, next) => {
+  try {
+    const listing = await Listing.findById(req.params.id);
+    if (!listing) {
+      throw new ExpressErr("Listing not found", 404);
+    }
+
+    const newReview = new Review(req.body.review); 
+    console.log("New Review", newReview);
+    listing.reviews.push(newReview);
+
+    await newReview.save();
+    await listing.save();
+
+    res.redirect(`/listings/${listing._id}`);
+  } catch (err) {
+    next(err);
+  }
+});
 
 
 
