@@ -2,15 +2,14 @@
 
 
     <div class="col-8 offset-3">
-
-        
-    <h2><%= listing.title %></h2>
-    <br>
-    <div class="card col-8 ">
+ 
+    <h3  class="mt-2"><%= listing.title %></h3>
+   
+    <div class="col-8 ">
     
         <img src="<%= listing.image.url %>" class="card-img-top " alt="listing_image">
         <br>
-        <div class="card-body">
+        <div class="card-body mt-2">
       
          
           <b>Description</b> : <%= listing.description %>
@@ -25,7 +24,7 @@
     
        
 <div class="btns mt-3 mb-3">
-    <a href="/listings/<%= listing._id%>/edit" class="btn btn-dark edit-btn2 col-1  ">Edit</a>
+    <a href="/listings/<%= listing._id%>/edit" class="btn btn-dark edit-btn2 col-1">Edit</a>
     <form action="/listings/<%= listing._id%>?_method=DELETE" method="POST">
         <button class="btn btn-dark del-btn  offset-4">Delete </button>
     </form>    

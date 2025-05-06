@@ -1,25 +1,24 @@
 
 const express = require('express');
 const router = express.Router();
-const wrapAsync = require("../utills/wrapAsync");
-const { listingSchema} = require("../schema");
-const ExpressErr = require("../utills/ExpressErr");
-const Listing = require("../models/listing");
+const wrapAsync = require("../utils/wrapAsync.js");
+const { listingSchema} = require("../schema.js");
+const ExpressErr = require("../utils/ExpressErr.js");
+const Listing = require("../models/listing.js");
 
 
 
 const validateListing = (req, res, next) => {
   const {error} = listingSchema.validate(req.body);
-// console.log("Validation",error);
-
   if (error) {
     const msg = error.details.map((el) => el.message).join(",");
     throw new ExpressErr(msg, 400);
   }
   next();
 };
+
 // All listings
-router.get("/",validateListing, wrapAsync(async (req, res) => {
+router.get("/", wrapAsync(async (req, res) => {
   const allList = await Listing.find({});
   res.render("listings/index.ejs", { allList });
 }));
@@ -64,7 +63,8 @@ router.put("/:id", validateListing,wrapAsync(async (req, res) => {
 // Delete listing
 router.delete("/:id", wrapAsync(async (req, res) => {
   const { id } = req.params;
-  await Listing.findByIdAndDelete(id);
+  const del = await Listing.findByIdAndDelete(id);
+  console.log("Deleted Listing", del);
   res.redirect("/listings");
 }));
 

@@ -6,10 +6,10 @@ const path = require("path");
 const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
 
-const ExpressErr = require("./utills/ExpressErr");
+const ExpressErr = require("./utils/ExpressErr");
 
-const listings = require("./routes/listings.js");
-const reviews = require("./routes/reviews.js");
+const listings = require("./routes/listing.js");
+const reviews = require("./routes/review.js");
 const app = express();
 const Mongo_URL = "mongodb://127.0.0.1:27017/wanderlust";
 
@@ -40,6 +40,7 @@ app.use("/listings/:id/reviews", reviews);
 app.all(/.*/, (req, res, next) => {
   next(new ExpressErr("Page Not Found", 404));
 });
+
 
 // Global error handler
 app.use((err, req, res, next) => {
