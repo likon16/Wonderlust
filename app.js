@@ -12,6 +12,9 @@ const listings = require("./routes/listing.js");
 const reviews = require("./routes/review.js");
 const app = express();
 const Mongo_URL = "mongodb://127.0.0.1:27017/wanderlust";
+const session = require("express-session");
+const flash = require("connect-flash");
+
 
 // Database connection
 mongoose.connect(Mongo_URL)
@@ -32,8 +35,40 @@ app.use(express.json());
 app.use(methodOverride("_method"));
 
 
+
+
+app.get("/", (req, res) => {
+  res.render("home.ejs");
+}
+);
+// Session configuration
+const sessionOptions = {
+  secret: "secret",
+  resave: false,
+  saveUninitialized: true,
+  cookie: {
+    expires: Date.now() + 7 * 24 * 60 * 60 * 1000, // 1 day
+    maxAge: 7 * 24 * 60 * 60 * 1000, // 1 day
+    httpOnly: true, 
+    // secure: false, // Set to true if using HTTPS
+  },
+};
+
+app.use(session(sessionOptions));
+app.use(flash());
+
+
+// Middleware for flash messages
+app.use((req, res, next) => {
+  res.locals.success = req.flash("success");
+  console.log(res.locals.success);
+  next();
+});
+
 app.use("/listings", listings);
 app.use("/listings/:id/reviews", reviews);
+
+
 
 
 // Catch-all for undefined routes
