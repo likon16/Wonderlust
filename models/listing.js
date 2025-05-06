@@ -34,15 +34,14 @@ reviews: [
 });
 
 
-listingSchema.post("findOneAndDelete", async(listing) =>{
+listingSchema.post("findOneAndDelete", async (listing) => {
   if (listing) {
     await mongoose.model("Review").deleteMany({
       _id: {
-        $in: doc.reviews,
+        $in: listing.reviews, // ✅ correct reference
       },
     });
   }
-
  
 });
 const Listing = mongoose.model("Listing", listingSchema);
