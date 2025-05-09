@@ -5,6 +5,7 @@ const wrapAsync = require("../utils/wrapAsync.js");
 const { listingSchema} = require("../schema.js");
 const ExpressErr = require("../utils/ExpressErr.js");
 const Listing = require("../models/listing.js");
+const { isLoggedIn } = require("../middleware.js");
 
 
 
@@ -24,8 +25,10 @@ router.get("/", wrapAsync(async (req, res) => {
 }));
 
 // New form
-router.get("/new", (req, res) => {
-  res.render("listings/new.ejs");
+router.get("/new",isLoggedIn, (req, res) => {
+  console.log(req.user);
+  // Check if user is authenticated before allowing access to the new listing form
+    res.render("listings/new.ejs");
 });
 
 // Show single listing
@@ -41,7 +44,7 @@ if (!listing){
 
 
 // Create route
-router.post("/", validateListing,wrapAsync(async (req, res) => {
+router.post("/", isLoggedIn,validateListing,wrapAsync(async (req, res) => {
     const newListing = new Listing(req.body.listing);
     await newListing.save();
     req.flash("success", "Successfully created a new listing!");
@@ -51,7 +54,7 @@ router.post("/", validateListing,wrapAsync(async (req, res) => {
   
 
 // Edit form
-router.get("/:id/edit", wrapAsync(async (req, res) => {
+router.get("/:id/edit",isLoggedIn, wrapAsync(async (req, res) => {
   const { id } = req.params;
   const listing = await Listing.findById(id);
   if (!listing){
@@ -62,7 +65,7 @@ router.get("/:id/edit", wrapAsync(async (req, res) => {
 }));
 
 // Update listing
-router.put("/:id", validateListing,wrapAsync(async (req, res) => {
+router.put("/:id",isLoggedIn, validateListing,wrapAsync(async (req, res) => {
   const { id } = req.params;
   await Listing.findByIdAndUpdate(id, req.body.listing);
   req.flash("success", "Successfully updated your listing!");
@@ -70,7 +73,7 @@ router.put("/:id", validateListing,wrapAsync(async (req, res) => {
 }));
 
 // Delete listing
-router.delete("/:id", wrapAsync(async (req, res) => {
+router.delete("/:id",isLoggedIn, wrapAsync(async (req, res) => {
   const { id } = req.params;
   const del = await Listing.findByIdAndDelete(id);
   console.log("Deleted Listing", del);

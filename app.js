@@ -8,8 +8,13 @@ const ejsMate = require("ejs-mate");
 
 const ExpressErr = require("./utils/ExpressErr");
 
-const listings = require("./routes/listing.js");
-const reviews = require("./routes/review.js");
+const listingsRouter = require("./routes/listing.js");
+const reviewsRouter = require("./routes/review.js");
+const userRouter = require("./routes/user.js");
+
+
+
+
 const app = express();
 const Mongo_URL = "mongodb://127.0.0.1:27017/wanderlust";
 const session = require("express-session");
@@ -78,8 +83,19 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use("/listings", listings);
-app.use("/listings/:id/reviews", reviews);
+// app.get("/getUser", async(req, res) => {
+//  let fakeUser = new User({
+//     username: "Chosma pra Meye",
+//     email: "mrlikon@gmail.com",
+//  });
+//  let registeredUser = await User.register(fakeUser, "password");
+//   res.send(registeredUser);
+// });
+
+
+app.use("/listings", listingsRouter);
+app.use("/listings/:id/reviews", reviewsRouter);
+app.use("/", userRouter);
 
 
 
