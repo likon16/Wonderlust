@@ -14,6 +14,9 @@ const app = express();
 const Mongo_URL = "mongodb://127.0.0.1:27017/wanderlust";
 const session = require("express-session");
 const flash = require("connect-flash");
+const passport = require("passport");
+const LocalStrategy = require("passport-local");
+const User = require("./models/user.js");
 
 
 // Database connection
@@ -56,6 +59,15 @@ const sessionOptions = {
 
 app.use(session(sessionOptions));
 app.use(flash());
+
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()));
+
+
+// Serialize and deserialize user
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 
 
 // Middleware for flash messages
