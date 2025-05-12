@@ -1,3 +1,8 @@
+if(process.env.NODE_ENV != "production")
+{
+require('dotenv').config()
+}
+
 
 
 const express = require("express");
@@ -5,7 +10,6 @@ const mongoose = require("mongoose");
 const path = require("path");
 const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
-
 const ExpressErr = require("./utils/ExpressErr");
 
 const listingsRouter = require("./routes/listing.js");
@@ -13,19 +17,25 @@ const reviewsRouter = require("./routes/review.js");
 const userRouter = require("./routes/user.js");
 
 
+// const Mongo_URL = "mongodb://127.0.0.1:27017/wanderlust";
 
+const dbUrl = process.env.ATLASDB_URL;
 
 const app = express();
-const Mongo_URL = "mongodb://127.0.0.1:27017/wanderlust";
+
 const session = require("express-session");
+const MongoStore = require('connect-mongo');
 const flash = require("connect-flash");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
 const User = require("./models/user.js");
 
 
+
+
+
 // Database connection
-mongoose.connect(Mongo_URL)
+mongoose.connect(dbUrl)
   .then(() => {
     console.log(" Database connected successfully");
   })
@@ -45,13 +55,37 @@ app.use(methodOverride("_method"));
 
 
 
-app.get("/", (req, res) => {
-  res.render("home.ejs");
-}
-);
+// Middleware to make `q` and `category` available in all views
+app.use((req, res, next) => {
+    res.locals.q = req.query.q || "";
+    res.locals.category = req.query.category || "";
+    next();
+});
+
+
+
+// app.get("/", (req, res) => {
+//   res.render("home.ejs");
+// }
+// );
+
+
+
+const store = MongoStore.create({
+mongoUrl:dbUrl,
+crypto:{
+  secret: process.env.SECRET,
+},
+touchAfter:24*3600,
+});
+
+store.on("error",()=>{
+  console.log("Error on Mongo Session Store",err)
+})
 // Session configuration
 const sessionOptions = {
-  secret: "secret",
+  store,
+  secret: process.env.SECRET,
   resave: false,
   saveUninitialized: true,
   cookie: {
@@ -61,6 +95,8 @@ const sessionOptions = {
     // secure: false, // Set to true if using HTTPS
   },
 };
+
+
 
 app.use(session(sessionOptions));
 app.use(flash());
@@ -84,14 +120,6 @@ app.use((req, res, next) => {
   next();
 });
 
-// app.get("/getUser", async(req, res) => {
-//  let fakeUser = new User({
-//     username: "Chosma pra Meye",
-//     email: "mrlikon@gmail.com",
-//  });
-//  let registeredUser = await User.register(fakeUser, "password");
-//   res.send(registeredUser);
-// });
 
 
 app.use("/listings", listingsRouter);

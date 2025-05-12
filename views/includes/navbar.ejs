@@ -1,26 +1,174 @@
+<style>
+.search-btn{
+  background-color: #ef4426;
+  color: aliceblue;
+  border-radius: 20px;
+}
+.search-btn :hover{
+  
+  background-color: #ef4426;
+  color: aliceblue;
+}
+
+.search-btn i{
+  font-size: 20px;
+  display: inline;
+  margin-right: 0.5rem;
+  
+}
+
+.search-inp{
+  
+  border-radius: 18px;
+  text-align: center;
+  padding-bottom: 0.8rem;
+  height: 2.5rem;
+  font-size: 0.8rem;
+}
+
+
+
+.container-fluid{
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+
+.navbar-nav a{
+  color: #19110fe0;
+
+  /* margin-left:-1.4rem ; */
+}
+
+.form-select{
+  cursor: pointer;
+}
+
+
+
+.user-menu {
+  position: relative;
+  border: 1px solid black;
+  border-radius: 50%;
+  height: 3rem;
+  width: 3rem;
+  background-color: #f0f0f0;
+  box-shadow: 1px 12px 5px #888888;
+}
+
+.user-icon {
+  cursor: pointer;
+  color: black;
+}
+
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: white;
+  min-width: 150px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  z-index: 1000;
+}
+
+.dropdown-item {
+  padding: 10px 15px;
+  display: block;
+  color: black;
+  text-decoration: none;
+}
+
+.dropdown-item:hover {
+  background-color: #f0f0f0;
+}
+.nav-link #logout{
+  color: #ef4426;
+}
+
+</style>
+
+
 <nav class="navbar navbar-expand-md bg-body-light border-bottom sticky-top">
     <div class="container-fluid">
-      <a class="navbar-brand" href="/"><i class="fa-regular fa-compass"></i></a>
+      <a class="navbar-brand" href="/listings"><i class="fa-regular fa-compass"></i></a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
-          <a class="nav-link " aria-current="page" href="#">Home</a>
-          <a class="nav-link" href="/listings">All Listings</a>
-          <a class="nav-link" href="/listings/new">Add New Listing</a>
+          
+          <a class="nav-link" href="/listings">Wanderlust</a>
         </div>
+<div class="navbar-nav ms-auto">
+   <form class="d-flex" method="GET" action="/listings/search">
 
-         <div class="navbar-nav ms-auto">
-          <% if (!currentUser){ %>
-         
-          <a class="nav-link " aria-current="page" href="/signup">SignUp</a>
-          <a class="nav-link" href="/login">LogIn</a>
-          <%}%> 
-          <% if (currentUser){ %>
-          <a class="nav-link" href="/logout">LogOut</a>
-          <%} %>
-        </div>
+     <select class="form-select me-2" name="category" style="border-radius: 20px; width: auto;">
+  <option value="title" <%= (category === "title") ? "selected" : "" %>>Title</option>
+  <option value="location" <%= (category === "location") ? "selected" : "" %>>Location</option>
+  <option value="country" <%= (category === "country") ? "selected" : "" %>>Country</option>
+</select>
+
+        <input class="form-control me-3 col-1 search-inp" id="search" name="q" type="search" placeholder="Search your Destination" aria-label="Search" value="<%= q || '' %>">
+
+        <button class="btn search-btn" type="submit"><i class="fa-solid fa-magnifying-glass"></i>Search </button>
+      </form>
+</div>
+       <div class="navbar-nav ms-auto">
+  <a class="nav-link" href="/listings/new">Airbnb your home</a>
+
+  <% if (!currentUser) { %>
+  <div class="nav-item dropdown user-menu">
+    <a class="nav-link user-icon" id="userDropdownToggle">
+      <i class="fas fa-user-circle fa-lg"></i>
+    </a>
+    <div class="dropdown-menu" id="userDropdownMenu">
+      <a class="dropdown-item" href="/signup"><b>Sign Up</b></a>
+      <a class="dropdown-item" href="/login"><b>Log In</b></a>
+    </div>
+  </div>
+  <% } %>
+
+  <% if (currentUser) { %>
+  <a class="nav-link " id="logout" href="/logout"><b>Log Out</b></a>
+  <% } %>
+</div>
+
+
       </div>
     </div>
   </nav>
+
+ <script>
+  document.querySelector("form.d-flex").addEventListener("submit", function (e) {
+    e.preventDefault();
+    
+    const query = document.getElementById("search").value.trim();
+    const category = document.querySelector("select[name='category']").value;
+
+    if (query && category) {
+      // Redirect to a search route with both category and query
+      window.location.href = `/listings/search?q=${encodeURIComponent(query)}&category=${encodeURIComponent(category)}`;
+    }
+  });
+
+
+    document.addEventListener("DOMContentLoaded", function () {
+    const toggle = document.getElementById("userDropdownToggle");
+    const menu = document.getElementById("userDropdownMenu");
+
+    toggle.addEventListener("click", function (e) {
+      e.preventDefault();
+      menu.style.display = menu.style.display === "block" ? "none" : "block";
+    });
+
+    // Close dropdown when clicking outside
+    document.addEventListener("click", function (event) {
+      if (!toggle.contains(event.target) && !menu.contains(event.target)) {
+        menu.style.display = "none";
+      }
+    });
+  });
+
+</script>
+

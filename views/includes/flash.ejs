@@ -1,17 +1,58 @@
+<style>
+ 
+/* Base styling for alert messages */
+.alert-box {
+  margin: 1rem auto;
+  width: 100%;
+  max-width: 500px;
+  padding: 0 15px;
+}
+
+/* Ensure alerts are fully responsive */
+.alert {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  font-size: 1rem;
+}
+
+/* Medium devices (tablet) */
+@media (max-width: 991.98px) {
+  .alert-box {
+    max-width: 90%;
+  }
+  .alert {
+    font-size: 0.95rem;
+  }
+}
+
+/* Small devices (phones) */
+@media (max-width: 767.98px) {
+  .alert-box {
+    max-width: 95%;
+    padding: 0 10px;
+  }
+  .alert {
+    font-size: 0.9rem;
+    padding: 0.75rem 1rem;
+  }
+}
+
+
+</style>
 
 <% if(success && success.length) { %>
-  <!-- Success message -->
-  <div class="alert alert-success mt-2 col-4 offset-4 alert-dismissible fade show" role="alert">
-    <%= success %>
-    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  <div class="alert-box">
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+      <%= success %>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
   </div>
 <% } %>
 
-
 <% if(error && error.length) { %>
-    <!-- Success message -->
-    <div class="alert alert-danger mt-2 col-4 offset-4 alert-dismissible fade show" role="alert">
+  <div class="alert-box">
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
       <%= error %>
       <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
-  <% } %>
+  </div>
+<% } %>

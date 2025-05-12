@@ -2,26 +2,150 @@
 
 
 
-    <h3>All Listings</h3>
-    <div class="row row-cols-md-3 row-cols-sm-2">
 
-      <% for (let list of allList){ %>
+    <!-- <h3>All Listings</h3> -->
+     <div id = "filters " class=" icon-filter-bar mt-3 mb-2">
+      <div class="filter">
+        <div><i class="fa-solid fa-fire"></i></div>
+        <p>
+      Trending
+        </p>
+      </div>
 
-        <a href="/listings/<%=list._id %>" class="listing-link">
+      <div class="filter">
+        <div><i class="fa-solid fa-bed"></i></div>
+        <p>
+     Rooms
+        </p>
+      </div>
 
-        <div class="listing-card">
-            <img src="<%= list.image.url %>" class="card-img-top" alt="...">
-            
-            <div class="card-body">
-              <p class="card-title"><b><%= list.title %></b> <br>
-                ₹<%= list.price.toLocaleString("en-IN") %> / Night</p>
-              
-            </div>
-          </div>
-        </a>
-          <% }%>
+    
+      <div class="filter">
+        <div><i class="fa-solid fa-mountain-city"></i></div>
+        <p>
+      Iconic Cities
+        </p>
+      </div>
+
+      <div class="filter">
+        <a href="/listings/search?category=category&q=Mountains" class="filter">
+        <div><i class="fa-solid fa-mountain"></i></div>
+        <p>
+    Mountains
+        </p>
+        </a>  
+      </div>
+     
+
+
+      <div class="filter">
+        <div><i class="fa-brands fa-fort-awesome"></i></div>
+        <p>
+      Castles
+        </p>
+      </div>
+
+      <div class="filter">
+        <div><i class="fa-solid fa-person-swimming"></i></div>
+        <p>
+     Amazing Pools
+        </p>
+      </div>
+
+      <div class="filter">
+        <div><i class="fa-solid fa-campground"></i></div>
+        <p>
+    Camping
+        </p>
+      </div>
+     
+
+
+      <div class="filter">
+        <div><i class="fa-solid fa-cow"></i></div>
+        <p>
+      Farms
+        </p>
+      </div>
+
+      <div class="filter">
+        <div><i class="fa-solid fa-snowflake"></i></div>
+        <p>
+Arctic
+        </p>
+      </div>
+
+
+      
+      <div class="filter">
+        <div><i class="fa-solid fa-igloo"></i></div>
+        <p>
+      Doms
+        </p>
+      </div>
+
+      <div class="filter">
+        <div><i class="fa-solid fa-ship"></i></div>
+        <p>
+Boats
+        </p>
+      </div>
+
+      <div class="tax-toggle">
+        <div class="form-check-reverse form-switch ">
+  <input class="form-check-input me-3" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+  <label class="form-check-label" for="flexSwitchCheckDefault">Display total after taxes&nbsp;</label>
+</div>
+      </div>
+     </div>
+    
+<div class="row alllist  row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-3 ">
+
+    <% for (let list of allList){ 
+     let basePrice = list.price;
+     let totalPrice = Math.round(basePrice * 1.18); // Include GST
+
+       let date = new Date(list.createdAt).toLocaleDateString("en-IN", {
+       year: 'numeric', month: 'short', day: 'numeric'
+     });
+%>
+<a href="/listings/<%=list._id %>" class="listing-link">
+  <div class="listing-card">
+    <img src="<%= list.image.url %>" class="card-img-top" alt="...">
+
+    <div class="card-body">
+      <p class="card-title"><b><%= list.title %></b><br>
+        <span class="base-price">₹<%= basePrice.toLocaleString("en-IN") %> / Night <i class="tax-info">+18% GST</i></span>
+        <span class="gst-price d-none">₹<%= totalPrice.toLocaleString("en-IN") %> / Night &nbsp;(incl. GST)</span>
+      </p>
+      <p class="text-muted mb-1" style="font-size: 0.85rem;">  <%= date %></p>
+       
+    </div>
+  </div>
+</a>
+<% } %>
+
         </div>
   
     
- 
+<script>
+
+ const taxswitcher = document.getElementById('flexSwitchCheckDefault');
+
+  taxswitcher.addEventListener("change", () => {
+    const basePrices = document.querySelectorAll('.base-price');
+    const gstPrices = document.querySelectorAll('.gst-price');
+
+    for (let i = 0; i < basePrices.length; i++) {
+      if (taxswitcher.checked) {
+        basePrices[i].classList.add('d-none');
+        gstPrices[i].classList.remove('d-none');
+      } else {
+        basePrices[i].classList.remove('d-none');
+        gstPrices[i].classList.add('d-none');
+      }
+    }
+  });
+
+</script>
   

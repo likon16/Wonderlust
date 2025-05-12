@@ -1,13 +1,124 @@
 <% layout("/layouts/boilarplate"); %>
 
+<style>
+  /* Base layout adjustments */
+/* =====================
+   Universal Styles
+===================== */
+img.card-img-top {
+  width: 90%;
+  min-height: 10rem;
+  object-fit: cover;
+  border-radius: 10px;
+}
+.title{
+  font-size: 1.2rem;
+}
+
+.card-body {
+  padding: 15px;
+}
+
+.btns {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+
+/* =====================
+   Responsive Layouts
+===================== */
+
+/* For phones (less than 768px) */
+@media (max-width: 767.98px) {
+  .col-8,
+  .col-6,
+  .offset-3 {
+    width: 100% !important;
+    margin: 0 auto !important;
+    padding: 0 15px !important;
+  }
+
+  .btns {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .edit-btn2,
+  .del-btn {
+    width: 100% !important;
+  }
+
+  .card.mb-3 {
+    width: 100% !important;
+    margin-left: 0 !important;
+  }
+
+  .starability-slot label {
+    font-size: 14px;
+  }
+}
+
+
+/* For tablets and desktops (768px and above) */
+@media (min-width: 768px) {
+
+ .col-8 .card-img-top{
+    height: 20rem;
+  }
+  .col-8 {
+    width: 66.66666667%;
+  }
+
+  .col-6 {
+    width: 50%;
+  }
+
+  .offset-3 {
+    margin-left: 25%;
+  }
+
+  .review-card {
+    width: 48%;
+    margin-right: 2%;
+  }
+
+  .review-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+}
+.noreivew{
+  color: #362d2d;
+  font-size: 1rem;
+  background-color: #9e9a9a2c;
+  height: 5rem;
+  
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  
+}
+
+
+
+
+
+
+
+</style>
+
 <div class="col-8 offset-3">
-  <h3 class="mt-2"><%= listing.title %></h3>
+  <h3 class="mt-2 title"><%= listing.title %></h3>
 
   <div class="col-8">
     <img src="<%= listing.image.url %>" class="card-img-top" alt="listing_image">
     <br>
     <div class="card-body mt-2">
-      <p class="card-text"><b>Owned By:</b> <%= listing.owner ? listing.owner.username : "Unknown" %></p>
+      <p class="card-text"><b>Owner:</b> <%= listing.owner ? listing.owner.username : "Unknown" %></p>
       <p class="card-text"><b>Description:</b> <%= listing.description %></p>
       <p class="card-text"><b>Price:</b> ₹<%= listing.price.toLocaleString("en-IN") %></p>
       <p class="card-text"><b>Location:</b> <%= listing.location %></p>
@@ -26,7 +137,7 @@
 </div>
 
 <% if (currentUser) { %>
-<div class="col-6 offset-3">
+<div class="col-6 offset-3 review-form">
   <hr>
   <h4>Write a Review</h4>
   <form action="/listings/<%= listing._id %>/reviews" method="POST" class="needs-validation" novalidate>
@@ -36,7 +147,7 @@
       <input type="range" name="review[rating]" id="rating" min="1" max="5" class="form-range" />
     </div> -->
 
-    <div class="mb-3 mt-3">
+    <div class="mt-3">
       <label for="rating">Rating</label>
     <fieldset class="starability-slot">
     
@@ -53,7 +164,7 @@
   <label for="first-rate5" title="Amazing">5 stars</label>
 </fieldset>
 </div>
-    <div class="mb-3 mt-3">
+    <div class="mb-3 ">
       <label for="comment" class="form-label">Comments</label>
       <textarea name="review[comment]" id="comment" cols="30" rows="7" class="form-control" required></textarea>
       <div class="valid-feedback">Review looks good!</div>
@@ -65,26 +176,38 @@
 </div>
 <% } %>
 
-<div class="col-6 offset-3">
-  <hr>
-  <h4>All Reviews</h4>
+<div>
 
-  <div class="row">
-    <% for (let review of listing.reviews) { %>
-     <div class="card mb-3 col-5 ms-3">
-      <div class="card-body">
-        <h5 class="card-title"><%= review.author.username %></h5>
-          <p class="starability-result card-text"  data-rating="<%= review.rating %>"></p>
-           <p class="card-text"><%= review.comment %></p>
-            <p class="card-text"><small class="text-muted">Posted on <%= review.createdAt.toLocaleString("en-IN") %></small></p>
+<% if (listing.reviews.length > 0) { %>
+  <div class="col-6 offset-3">
+    <hr>
+    <h4>All Reviews</h4>
+
+    <div class="review-container row">
+      <% for (let review of listing.reviews) { %>
+        <div class="card mb-3 col-5 ms-3">
+          <div class="card-body">
+            <h5 class="card-title mt-2"><%= review.author.username %></h5>
+            <p class="starability-result card-text" data-rating="<%= review.rating %>"></p>
+            <p class="card-text"><%= review.comment %></p>
+            <p class="card-text">
+              <small class="text-muted">Posted on <%= review.createdAt.toLocaleString("en-IN") %></small>
+            </p>
             <% if (currentUser && String(currentUser._id) === String(review.author._id)) { %>
-           <form class="mb-2 mt-2" method="POST" action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE">
-          <button type="submit" class="btn btn-sm btn-dark mt-2">Delete</button>
-        </form>
-        <% } %>
-      </div>
+              <form class="mb-2 mt-2" method="POST" action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE">
+                <button type="submit" class="btn btn-sm btn-dark mt-2">Delete</button>
+              </form>
+            <% } %>
+          </div>
+        </div>
+      <% } %>
     </div>
-    <% } %>
   </div>
+<% } else { %>
+  <div class="col-6 offset-3">
+    <hr>
+    <h4>All Reviews</h4>
+    <div class=" mb-5 noreivew">No reviews!</div>
+  </div>
+<% } %>
 </div>
-
