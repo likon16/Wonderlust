@@ -15,6 +15,7 @@ const { isLoggedIn,isOwner,validateListing } = require("../middleware.js");
 
 const listingController = require("../controllers/listing.js");
 
+
 router.route("/")
 .get(wrapAsync(listingController.index))
 .post(isLoggedIn,validateListing,
