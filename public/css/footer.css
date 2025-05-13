@@ -1,0 +1,46 @@
+
+/*Footer */
+footer {
+    background-color: rgba(157, 168, 164, 0.151);
+    width: 100vw;
+    position: relative;
+    left: 0;
+    margin: 0;
+    padding: 0;
+}
+
+
+  
+  .fo-info {
+    padding-top: 1rem;
+   
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    padding-bottom: 1rem;
+  }
+  
+  .fo-info-socials i {
+    font-size: 1.2rem;
+    margin: 0 0.5rem;
+    color: black;
+    cursor: pointer;
+  }
+  
+  .fo-info-links a {
+    color: black;
+    text-decoration: none;
+    margin: 0 0.2rem;
+  }
+  
+  .fo-info-links a:hover {
+    text-decoration: underline;
+  }
+  
+  #copyright {
+    font-size: 0.8rem;
+    color: black;
+  }
+  

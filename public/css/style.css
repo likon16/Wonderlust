@@ -62,53 +62,6 @@ body::-webkit-scrollbar-thumb:hover {
 }
 
 
-/*Footer */
-footer {
-    background-color: rgba(157, 168, 164, 0.151);
-    width: 100vw;
-    position: relative;
-    left: 0;
-    margin: 0;
-    padding: 0;
-}
-
-
-  
-  .fo-info {
-    padding-top: 1rem;
-   
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1rem;
-    padding-bottom: 1rem;
-  }
-  
-  .fo-info-socials i {
-    font-size: 1.2rem;
-    margin: 0 0.5rem;
-    color: black;
-    cursor: pointer;
-  }
-  
-  .fo-info-links a {
-    color: black;
-    text-decoration: none;
-    margin: 0 0.2rem;
-  }
-  
-  .fo-info-links a:hover {
-    text-decoration: underline;
-  }
-  
-  #copyright {
-    font-size: 0.8rem;
-    color: black;
-  }
-  
-
-
 
 /* Cards*/
 
@@ -158,41 +111,8 @@ footer {
     border: none !important;
 }
 
-/* Edit List */
-
-.edit-btn{
-    background-color: rgb(233, 69, 69) !important;
-    border: none !important;
-}
 
 
-/* Show List */
-
-
-
-/* Edit button */
-.btns{
-    display: flex;
-    
-}
-
-.del-btn{
-    background-color: rgb(233, 69, 69) !important;
-    border: none !important;
-}
-
-
-  /* #filters {
-   
-  display: flex;
-  overflow-x: auto;
-  gap:0.6rem;
-  padding: 1rem;
-  align-items: center;
-  white-space: nowrap;
-  scrollbar-width: none; 
-
-} */
 
 .icon-filter-bar {
   position: sticky;
@@ -274,32 +194,7 @@ footer {
 
 
 @media (min-width: 1024px) {
-  /* #filters {
-    justify-content: flex-start;
-    gap: 2rem;
-    position: fixed;
-  } */
-
-  /* #filters{
-     position: fixed;  
-     margin-left: -7.5rem;
-     margin-bottom: 5rem;
-  top: 60px; 
-width: 100%;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 2rem;
-  justify-content: space-between;
-  background-color: #f9f9f9;
-  padding-top: 16px;
-  padding-bottom: 16px;
-  padding-left: 6rem;
-  padding-right: 6rem;
-  z-index: 1000;
-  box-shadow: 0 4px 8px rgba(61, 56, 56, 0.1); 
-  transition: top 0.3s ease; 
-  scrollbar-width: thin;
-  } */
+  
 
 
   .icon-filter-bar {

@@ -1,92 +1,4 @@
-<style>
-.search-btn{
-  background-color: #ef4426;
-  color: aliceblue;
-  border-radius: 20px;
-}
-.search-btn :hover{
-  
-  background-color: #ef4426;
-  color: aliceblue;
-}
 
-.search-btn i{
-  font-size: 20px;
-  display: inline;
-  margin-right: 0.5rem;
-  
-}
-
-.search-inp{
-  
-  border-radius: 18px;
-  text-align: center;
-  padding-bottom: 0.8rem;
-  height: 2.5rem;
-  font-size: 0.8rem;
-}
-
-
-
-.container-fluid{
-  padding-left: 2rem;
-  padding-right: 2rem;
-}
-
-.navbar-nav a{
-  color: #19110fe0;
-
-  /* margin-left:-1.4rem ; */
-}
-
-.form-select{
-  cursor: pointer;
-}
-
-
-
-.user-menu {
-  position: relative;
-  border: 1px solid black;
-  border-radius: 50%;
-  height: 3rem;
-  width: 3rem;
-  background-color: #f0f0f0;
-  box-shadow: 1px 12px 5px #888888;
-}
-
-.user-icon {
-  cursor: pointer;
-  color: black;
-}
-
-.dropdown-menu {
-  display: none;
-  position: absolute;
-  top: 100%;
-  right: 0;
-  background: white;
-  min-width: 150px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
-  z-index: 1000;
-}
-
-.dropdown-item {
-  padding: 10px 15px;
-  display: block;
-  color: black;
-  text-decoration: none;
-}
-
-.dropdown-item:hover {
-  background-color: #f0f0f0;
-}
-.nav-link #logout{
-  color: #ef4426;
-}
-
-</style>
 
 
 <nav class="navbar navbar-expand-md bg-body-light border-bottom sticky-top">
@@ -98,9 +10,9 @@
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
           
-          <a class="nav-link" href="/listings">Wanderlust</a>
+          <a class="nav-link" href="/listings" id="wand">Wanderlust</a>
         </div>
-<div class="navbar-nav ms-auto">
+<div class="navbar-nav ms-auto " id="search-bar">
    <form class="d-flex" method="GET" action="/listings/search">
 
      <select class="form-select me-2" name="category" style="border-radius: 20px; width: auto;">
@@ -111,11 +23,11 @@
 
         <input class="form-control me-3 col-1 search-inp" id="search" name="q" type="search" placeholder="Search your Destination" aria-label="Search" value="<%= q || '' %>">
 
-        <button class="btn search-btn" type="submit"><i class="fa-solid fa-magnifying-glass"></i>Search </button>
+        <button class="btn search-btn" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
       </form>
 </div>
-       <div class="navbar-nav ms-auto">
-  <a class="nav-link" href="/listings/new">Airbnb your home</a>
+       <div class="navbar-nav ms-auto" id="nav-end">
+  <a class="nav-link"  href="/listings/new">Airbnb your home</a>
 
   <% if (!currentUser) { %>
   <div class="nav-item dropdown user-menu">
@@ -171,4 +83,3 @@
   });
 
 </script>
-

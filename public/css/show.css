@@ -1,0 +1,115 @@
+
+
+  /* Base layout adjustments */
+/* =====================
+   Universal Styles
+===================== */
+img.card-img-top {
+  width: 90%;
+  min-height: 10rem;
+  object-fit: cover;
+  border-radius: 10px;
+}
+.title{
+  font-size: 1.2rem;
+}
+
+.card-body {
+  padding: 15px;
+}
+
+.btns {
+  display: flex;
+  gap: 10px;
+  flex-wrap: nowrap; /* prevent wrapping */
+  justify-content: start;
+  align-items: center;
+}
+
+/* Button widths */
+.edit-btn2, .del-btn {
+  /* width: auto    ; */
+  width: 4rem;
+}
+
+
+/* =====================
+   Responsive Layouts
+===================== */
+
+/* For phones (less than 768px) */
+@media (max-width: 767.98px) {
+  .col-8,
+  .col-6,
+  .offset-3 {
+    width: 100% !important;
+    margin: 0 auto !important;
+    padding: 0 15px !important;
+  }
+
+  
+
+
+  .card.mb-3 {
+    width: 100% !important;
+    margin-left: 0 !important;
+  }
+
+  .starability-slot label {
+    font-size: 14px;
+  }
+}
+
+
+/* For tablets and desktops (768px and above) */
+@media (min-width: 768px) {
+
+ .col-8 .card-img-top{
+    height: 20rem;
+  }
+  .col-8 {
+    width: 66.66666667%;
+  }
+
+  .col-6 {
+    width: 50%;
+  }
+
+  .offset-3 {
+    margin-left: 25%;
+  }
+
+  .review-card {
+    width: 48%;
+    margin-right: 2%;
+  }
+
+  .review-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+}
+.noreivew{
+  color: #362d2d;
+  font-size: 1rem;
+  background-color: #9e9a9a2c;
+  height: 5rem;
+  
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  
+}
+
+.edit-btn2{
+  width: 4rem;
+}
+
+.del-btn{
+  width: 5rem;
+}
+
+
+

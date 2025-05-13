@@ -1,0 +1,42 @@
+
+    /* Base Styles – already handled by Bootstrap grid, but you can add custom spacing if needed */
+form {
+  padding: 10px;
+}
+
+/* Small devices (phones, less than 576px) */
+@media (max-width: 575.98px) {
+  .col-7.offset-2 {
+    width: 100% !important;
+    margin-left: 0 !important;
+  }
+
+  .add-btn {
+    width: 100%;
+  }
+
+  input,
+  textarea {
+    font-size: 16px;
+  }
+}
+
+/* Medium devices (tablets, 576px to 767.98px) */
+@media (min-width: 576px) and (max-width: 767.98px) {
+  .col-7.offset-2 {
+    width: 90% !important;
+    margin-left: 5% !important;
+  }
+
+  .add-btn {
+    width: 100%;
+  }
+}
+
+/* Large devices (768px and up) */
+@media (min-width: 768px) {
+  .add-btn {
+    width: auto;
+  }
+}
+
