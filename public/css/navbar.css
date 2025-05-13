@@ -90,7 +90,7 @@
 /* =====================================
    Small Devices (Phones) - <576px
 ===================================== */
-@media (max-width: 575.98px) {
+/* @media (max-width: 575.98px) {
   #search-bar {
     margin: 0 auto;
     width: 100%;
@@ -127,6 +127,97 @@ height: 2.5rem;
   .user-menu {
     margin-top: 0.5rem;
   }
+} */
+
+
+/* White background for search bar and nav items when navbar is expanded on small devices */
+@media (max-width: 575.98px) {
+  .navbar-collapse.show {
+    background-color: white;
+    padding: 0.5rem;
+    position: relative;
+    border-radius: 0.5rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    margin-left: -1rem;
+    margin-right: 1rem;
+    
+  }
+ #wand{
+  position: relative;
+  background-color: white;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  width: 8rem;
+  text-align: center;
+  margin-left: -0.5rem;
+  
+}
+
+
+ #search-bar {
+    margin: 0 auto;
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+  }
+
+  
+  .search-inp{
+    width: 10rem;
+  }
+  .form-select {
+    width: 1rem;
+    margin-bottom: 0.5rem;
+    margin-left: -0.8rem;
+   
+  }
+
+  
+   .search-btn{
+     background-color: rgb(232, 82, 82) !important;
+ 
+width: 2.5rem;
+height: 2.5rem;
+   }
+.search-btn p{
+    display: none;
+    font-size: 1.5rem;
+   }
+  .navbar-nav {
+    align-items: center;
+    text-align: center;
+    width: 100%;
+  }
+
+  .user-menu {
+    margin-top: 0.5rem;
+  }
+  .navbar-collapse.show #search-bar {
+    background-color: white;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    width: 100%;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-left: 1rem;
+    margin-right: 1rem;
+  }
+
+  .navbar-collapse.show .search-inp,
+  .navbar-collapse.show .form-select,
+  .navbar-collapse.show .search-btn {
+   
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 0.5rem;
+  }
+}
+
+
+.navbar-collapse {
+  transition: background-color 0.3s ease;
 }
 
 /* #wand{
@@ -150,6 +241,7 @@ height: 2.5rem;
   .search-btn {
     width: 100%;
     max-width: 300px;
+    background-color: #f1eded !important;
   }
 
   .user-menu {

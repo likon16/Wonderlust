@@ -26,7 +26,7 @@ module.exports.createListing=async (req, res) => {
     newListing.owner = req.user._id;
     newListing.image = {url,filename};
     await newListing.save();
-    req.flash("success", "Successfully created a new listing!");
+    req.flash("success", "Created Successfully!");
 
     res.redirect("/listings");
   }
@@ -80,7 +80,7 @@ module.exports.renderEditForm = async (req, res) => {
   await listing.save();
    }
      
-    req.flash("success", "Successfully updated your listing!");
+    req.flash("success", "Updated Successfully!");
     res.redirect(`/listings/${id}`);
   
   }
@@ -92,7 +92,7 @@ module.exports.renderEditForm = async (req, res) => {
     const { id } = req.params;
     const del = await Listing.findByIdAndDelete(id);
     console.log("Deleted Listing", del);
-    req.flash("success", "Successfully deleting listing!");
+    req.flash("success", "Deleted Successfully!");
     res.redirect("/listings");
   }
 

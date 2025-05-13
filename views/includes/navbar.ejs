@@ -15,19 +15,19 @@
 <div class="navbar-nav ms-auto " id="search-bar">
    <form class="d-flex" method="GET" action="/listings/search">
 
-     <select class="form-select me-2" name="category" style="border-radius: 20px; width: auto;">
+     <select class="form-select me-2" name="category" style="border-radius: 20px; ">
   <option value="title" <%= (category === "title") ? "selected" : "" %>>Title</option>
   <option value="location" <%= (category === "location") ? "selected" : "" %>>Location</option>
   <option value="country" <%= (category === "country") ? "selected" : "" %>>Country</option>
 </select>
 
-        <input class="form-control me-3 col-1 search-inp" id="search" name="q" type="search" placeholder="Search your Destination" aria-label="Search" value="<%= q || '' %>">
+        <input class="form-control me-3 col-1 search-inp" id="search" name="q" type="search" placeholder="Search here..." aria-label="Search" value="<%= q || '' %>">
 
         <button class="btn search-btn" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
       </form>
 </div>
        <div class="navbar-nav ms-auto" id="nav-end">
-  <a class="nav-link"  href="/listings/new">Airbnb your home</a>
+  <a class="nav-link"  href="/listings/new">Wanderlust your peace</a>
 
   <% if (!currentUser) { %>
   <div class="nav-item dropdown user-menu">
