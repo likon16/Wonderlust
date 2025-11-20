@@ -3,8 +3,6 @@ if(process.env.NODE_ENV != "production")
 require('dotenv').config()
 }
 
-
-
 const express = require("express");
 const mongoose = require("mongoose");
 const path = require("path");
@@ -82,6 +80,7 @@ touchAfter:24*3600,
 store.on("error",()=>{
   console.log("Error on Mongo Session Store",err)
 })
+
 // Session configuration
 const sessionOptions = {
   store,
